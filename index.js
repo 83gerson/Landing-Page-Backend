@@ -12,12 +12,17 @@ app.use(express.json({ limit: '10mb' }));
 app.use(express.urlencoded({ extended: true }));
 
 // Configuración de CORS 
-app.use(cors({
+const corsOptions = {
   origin: 'https://landing-page-frontend-efze.onrender.com',
   methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
   allowedHeaders: ['Content-Type', 'Authorization'],
-  credentials: false 
-}));
+  optionsSuccessStatus: 200, // <- muy importante para Render
+  credentials: false
+};
+
+app.use(cors(corsOptions));
+app.options('*', cors(corsOptions)); // <- Esto maneja preflight requests
+
 
 // Función para inicializar la aplicación
 const initializeApp = async () => {
